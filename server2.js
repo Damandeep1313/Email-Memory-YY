@@ -100,7 +100,7 @@ app.post("/get-unique-emails", async (req, res) => {
     let sendEmail = email.email.toLowerCase();
     const msg = {
       to: sendEmail,
-      from: "on-demand <info@on-demand.io>",
+      from: "Daman <damandeepsingh24091@gmail.com>",
       subject: subject,
       text: text,
       html: `${text}`,
