@@ -102,7 +102,7 @@ app.post("/get-unique-emails", async (req, res) => {
 
     if (!CAMPAIGNS[campaign]) {
       return res.status(400).json({ 
-        error: `Invalid campaign. Available campaigns: ${Object.keys(CAMPAIGNS).join(', ')}` 
+        error: `Invalid campaign!Please enter the correct campaign.}` 
       });
     }
 
