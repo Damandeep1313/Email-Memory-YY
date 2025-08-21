@@ -140,7 +140,7 @@ app.post("/get-unique-emails", async (req, res) => {
         let sendEmail = email.email.toLowerCase();
         const msg = {
           to: sendEmail,
-          from: "Osteopathic Health Centre <wellness@osteopathydubai.com>",
+          from: "on-demand <info@on-demand.io>",
           subject: subject,
           text: text,
           html: `${text}`,
