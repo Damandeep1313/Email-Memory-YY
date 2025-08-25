@@ -1,5 +1,5 @@
 /*******************************************************
- * server.js — Batch Insert Unique Emails with MongoDB (Multi-Campaign)
+ * campaign.js — Batch Insert Unique Emails with MongoDB (Multi-Campaign)
  *******************************************************/
 require("dotenv").config();
 const express = require("express");
@@ -56,9 +56,16 @@ const getCampaignConnection = (campaignKey) => {
 };
 
 /*******************************************************
- * SCHEMA FACTORY
+ * SCHEMA FACTORY WITH MODEL CACHING
  *******************************************************/
+const modelCache = {};
+
 const getContactModel = (campaignKey) => {
+  // Return cached model if it exists
+  if (modelCache[campaignKey]) {
+    return modelCache[campaignKey];
+  }
+
   const connection = getCampaignConnection(campaignKey);
   
   const contactSchema = new mongoose.Schema(
@@ -78,7 +85,9 @@ const getContactModel = (campaignKey) => {
     { collection: "contacts" }
   );
 
-  return connection.model('Contact', contactSchema);
+  // Cache and return the model
+  modelCache[campaignKey] = connection.model('Contact', contactSchema);
+  return modelCache[campaignKey];
 };
 
 /*******************************************************
@@ -102,7 +111,7 @@ app.post("/get-unique-emails", async (req, res) => {
 
     if (!CAMPAIGNS[campaign]) {
       return res.status(400).json({ 
-        error: `Invalid campaign!Please enter the correct campaign.}` 
+        error: `Invalid campaign! Please enter the correct campaign.` 
       });
     }
 
